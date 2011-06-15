@@ -8,12 +8,12 @@ import logging
 import StringIO
 # URLs are always with / separators
 import posixpath as path
-import shutil
 import time
 
 import cssutils
 from cssutils.serialize import CSSSerializer
 from pylons import config
+from pylons import url
 from pylons.decorators.cache import beaker_cache
 
 from webhelpers.html.tags import javascript_link as __javascript_link
@@ -210,6 +210,8 @@ def base_link(ext, *sources, **options):
 
         if stripped_sources:
             sources = [strip_prefix + source for source in sources]
+
+        sources = [url(source) for source in sources]
 
     if 'js' in ext:
         return __javascript_link(*sources, **options)
